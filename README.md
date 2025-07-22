@@ -6,19 +6,19 @@
 
 **Escopo:**
 
-* Plataforma Web responsiva.
-* Login individual para Aluno, Professor e Escola.
+* Aplicativo multiplataforma desenvolvido 100% em Flutter (Android, iOS, Web, Desktop).
+* Login individual para Aluno, Professor e Escola (simulado/local).
 * Upload, preenchimento e assinatura digital de documentos.
 * Gestão de visitas às escolas.
 * Painéis de acompanhamento específicos para cada usuário.
 * Notificações automáticas de status.
+* Persistência local dos dados (ex: Hive, SQLite).
 
 **Tecnologias:**
 
-* Front-end: React ou Vue.js.
-* Back-end: Node.js ou Django.
-* Banco de Dados: PostgreSQL.
-* Hospedagem: AWS, Azure ou GovCloud.
+* Flutter (Dart) para todo o desenvolvimento.
+* Persistência local: Hive, SQLite ou SharedPreferences.
+* Sem backend externo/API.
 
 ## 2. Análise de Requisitos
 
@@ -60,9 +60,9 @@
 
 ### 2.3 Requisitos de Restrição
 
-* RR1: Front-end em React ou Vue.js; Back-end em Node.js ou Django.
-* RR2: Utilização de PostgreSQL.
-* RR3: Hospedagem em nuvem.
+* RR1: Aplicativo 100% Flutter, sem backend externo.
+* RR2: Utilização de persistência local (Hive, SQLite, etc).
+* RR3: Multiplataforma (Android, iOS, Web, Desktop).
 * RR4: Entrega até o fim do semestre letivo de 2025.
 
 ## 3. Modelagem de Dados
@@ -97,5 +97,121 @@ A modelagem de dados considerará as entidades **Aluno, Professor, Escola, Docum
 3. Confirmação ou reagendamento de visitas.
 4. Visualização de agendamentos realizados.
 5. Atualização de dados cadastrais.
+
+---
+
+## 5. Planejamento de Desenvolvimento do App
+
+### 5.1 Etapas Gerais
+
+1. **Configuração Inicial do Projeto**
+   - [x] Estruturar o projeto Flutter (já iniciado).
+   - [x] Definir estrutura de pastas (modelos, telas, widgets, serviços, utilitários).
+   - [x] Configurar gerenciamento de estado (Provider).
+
+2. **Modelagem e Persistência Local**
+   - [ ] Definir modelos de dados (Aluno, Professor, Escola, Documento, Visita, Usuário).
+   - [ ] Escolher e configurar persistência local (Hive, SQLite, etc).
+   - [ ] Criar serviços para simular autenticação e manipulação de dados.
+
+3. **Autenticação e Perfis (Simulados)**
+   - [ ] Implementar telas e lógica de login para Aluno, Professor e Escola (sem autenticação real).
+   - [ ] Gerenciar troca de perfis e permissões de acesso.
+
+4. **Funcionalidades do Aluno**
+   - [ ] Upload, preenchimento e assinatura digital de documentos.
+   - [ ] Agendamento de visitas.
+   - [ ] Consulta ao histórico e status de documentos.
+   - [ ] Recebimento de notificações.
+
+5. **Funcionalidades do Professor**
+   - [ ] Visualização de alunos supervisionados.
+   - [ ] Aprovação/recusa de documentos.
+   - [ ] Visualização de agendamentos.
+   - [ ] Envio de notificações.
+
+6. **Funcionalidades da Escola**
+   - [ ] Gestão de horários para visitas.
+   - [ ] Confirmação/reagendamento de visitas.
+   - [ ] Atualização de dados cadastrais.
+   - [ ] Visualização de agendamentos.
+
+7. **Notificações e Painéis**
+   - [ ] Implementar sistema de notificações locais.
+   - [ ] Criar painéis de acompanhamento para cada tipo de usuário.
+
+8. **Testes e Validação**
+   - [ ] Testes unitários e de integração.
+   - [ ] Testes de usabilidade e responsividade.
+   - [ ] Validação de requisitos funcionais e não funcionais.
+
+9. **Publicação e Distribuição**
+   - [ ] Gerar builds para Android, iOS, Web e Desktop.
+   - [ ] Testar instalação e funcionamento em cada plataforma.
+   - [ ] Documentar processo de build e publicação.
+
+---
+
+## 6. Funcionalidades Testáveis
+
+- Login e autenticação simulada para todos os perfis.
+- Upload e assinatura digital de documentos.
+- Agendamento e confirmação de visitas.
+- Aprovação/recusa de documentos pelo professor.
+- Notificações locais automáticas e manuais.
+- Painéis de acompanhamento individualizados.
+- Responsividade e performance.
+- Persistência local dos dados.
+
+---
+
+## 7. Próximos Passos
+
+1. Finalizar modelagem de dados e estrutura de pastas.
+2. Configurar persistência local (Hive, SQLite, etc).
+3. Implementar telas e lógica de autenticação simulada.
+4. Desenvolver fluxo de upload e assinatura de documentos.
+5. Criar agendamento de visitas.
+6. Testar funcionalidades iniciais.
+7. Atualizar este README após cada etapa concluída.
+
+---
+
+## 8. Estrutura de Pastas (MVC)
+
+```
+lib/
+│
+├── models/         # Modelos de dados (Aluno, Professor, Documento, etc)
+│
+├── views/          # Telas e widgets principais (UI)
+│   ├── aluno/
+│   ├── professor/
+│   ├── escola/
+│   └── shared/     # Telas e widgets compartilhados
+│
+├── controllers/    # Lógica de controle, manipulação de dados, regras de negócio
+│   ├── aluno_controller.dart
+│   ├── professor_controller.dart
+│   ├── escola_controller.dart
+│   └── ...
+│
+├── services/       # Serviços auxiliares (persistência local, notificações, etc)
+│
+├── utils/          # Utilitários, helpers, constantes, temas, etc
+│
+├── main.dart       # Ponto de entrada do app
+│
+└── routes/         # Gerenciamento de rotas e navegação
+```
+
+### Descrição das Pastas
+
+- **models/**: Define as classes de dados (ex: Aluno, Professor, Documento, Visita).
+- **views/**: Contém as telas (UI) separadas por perfil e widgets compartilhados.
+- **controllers/**: Gerencia o estado, lógica de negócio e comunicação entre views e models.
+- **services/**: Serviços para persistência local, notificações, autenticação simulada, etc.
+- **utils/**: Funções utilitárias, temas, constantes globais.
+- **routes/**: Arquivos de configuração de rotas e navegação do app.
 
 ---

@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+// Exemplo de ChangeNotifier para autenticação
+class AuthProvider extends ChangeNotifier {
+  String? _usuario;
+  String? get usuario => _usuario;
+
+  void login(String usuario) {
+    _usuario = usuario;
+    notifyListeners();
+  }
+
+  void logout() {
+    _usuario = null;
+    notifyListeners();
+  }
+}
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
