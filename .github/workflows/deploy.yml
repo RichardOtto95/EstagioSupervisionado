@@ -1,0 +1,121 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: 'stable'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Build web
+      run: flutter build web --wasm --base-href "/estagio_supervisionado/" --release
+
+    - name: Verify build files
+      run: |
+        echo "Verificando arquivos do build..."
+        ls -la build/web/
+        echo "Verificando se main.dart.js existe..."
+        test -f build/web/main.dart.js && echo "✅ main.dart.js encontrado" || echo "❌ main.dart.js não encontrado"
+        echo "Verificando se flutter.js existe..."
+        test -f build/web/flutter.js && echo "✅ flutter.js encontrado" || echo "❌ flutter.js não encontrado"
+        echo "Verificando se index.html existe..."
+        test -f build/web/index.html && echo "✅ index.html encontrado" || echo "❌ index.html não encontrado"
+        echo "Verificando se manifest.json existe..."
+        test -f build/web/manifest.json && echo "✅ manifest.json encontrado" || echo "❌ manifest.json não encontrado"
+        echo "Verificando se favicon.png existe..."
+        test -f build/web/favicon.png && echo "✅ favicon.png encontrado" || echo "❌ favicon.png não encontrado"
+        echo "Verificando se flutter_service_worker.js existe..."
+        test -f build/web/flutter_service_worker.js && echo "✅ flutter_service_worker.js encontrado" || echo "❌ flutter_service_worker.js não encontrado"
+        echo "Verificando se pasta assets existe..."
+        test -d build/web/assets && echo "✅ pasta assets encontrada" || echo "❌ pasta assets não encontrada"
+        echo "Verificando se pasta icons existe..."
+        test -d build/web/icons && echo "✅ pasta icons encontrada" || echo "❌ pasta icons não encontrada"
+
+    - name: Copy .nojekyll file
+      run: |
+        echo "Copiando arquivo .nojekyll..."
+        cp web/.nojekyll build/web/.nojekyll
+        echo "✅ .nojekyll copiado para build/web/"
+        
+        # Garantir que o .nojekyll está na raiz
+        touch build/web/.nojekyll
+        echo "✅ .nojekyll garantido na raiz do build"
+
+    - name: Ensure all files are present
+      run: |
+        echo "Garantindo que todos os arquivos críticos estão presentes..."
+        required_files=("main.dart.js" "flutter.js" "index.html" "manifest.json" "favicon.png" "flutter_service_worker.js" ".nojekyll")
+        for file in "${required_files[@]}"; do
+          if [ ! -f "build/web/$file" ]; then
+            echo "❌ ERRO: Arquivo $file não encontrado em build/web/"
+            exit 1
+          else
+            echo "✅ $file encontrado"
+          fi
+        done
+        
+        required_dirs=("assets" "icons")
+        for dir in "${required_dirs[@]}"; do
+          if [ ! -d "build/web/$dir" ]; then
+            echo "❌ ERRO: Pasta $dir não encontrada em build/web/"
+            exit 1
+          else
+            echo "✅ pasta $dir encontrada"
+          fi
+        done
+        
+        echo "🎉 Todos os arquivos necessários estão presentes!"
+
+    - name: Final verification
+      run: |
+        echo "🔍 Verificação final antes do deploy..."
+        echo "Conteúdo da pasta build/web:"
+        find build/web -type f -name "*.js" -o -name "*.html" -o -name "*.json" -o -name "*.png" | head -20
+        echo ""
+        echo "Tamanho dos arquivos principais:"
+        ls -lh build/web/main.dart.js build/web/flutter.js build/web/index.html
+        echo ""
+        echo "✅ Verificação final concluída!"
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: './build/web'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

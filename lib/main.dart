@@ -1,7 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'routes/app_routes.dart';
+import 'utils/constants.dart';
+
+// Exemplo de ChangeNotifier para autenticação
+class AuthProvider extends ChangeNotifier {
+  String? _usuario;
+  String? get usuario => _usuario;
+
+  void login(String usuario) {
+    _usuario = usuario;
+    notifyListeners();
+  }
+
+  void logout() {
+    _usuario = null;
+    notifyListeners();
+  }
+}
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (_) => AuthProvider())],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,25 +36,42 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
+        scaffoldBackgroundColor: AppColors.background,
+        cardColor: AppColors.card,
+        textTheme: const TextTheme(
+          bodyLarge: AppTextStyles.body,
+          bodyMedium: AppTextStyles.body,
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        colorScheme: ColorScheme.dark(
+          primary: AppColors.darkPrimary,
+          secondary: AppColors.darkSecondary,
+          surface: AppColors.darkCard,
+          onSurface: AppColors.darkText,
+        ),
+        scaffoldBackgroundColor: AppColors.darkBackground,
+        cardColor: AppColors.darkCard,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: AppColors.darkText, fontSize: 16),
+          bodyMedium: TextStyle(color: AppColors.darkText, fontSize: 16),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: AppColors.darkPrimary,
+          foregroundColor: Colors.white,
+        ),
+      ),
+      themeMode: ThemeMode.system,
+      initialRoute: '/',
+      routes: AppRoutes.routes,
     );
   }
 }
