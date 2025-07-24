@@ -3,17 +3,17 @@ import '../../utils/constants.dart';
 import 'package:provider/provider.dart';
 import '../../main.dart';
 
-class AlunoHomeView extends StatelessWidget {
-  const AlunoHomeView({super.key});
+class ProfessorHomeView extends StatelessWidget {
+  const ProfessorHomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        title: const Text('Home do Aluno'),
+        title: const Text('Home do Professor'),
         backgroundColor: colorScheme.primary,
         elevation: 0,
         actions: [
@@ -41,7 +41,7 @@ class AlunoHomeView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'Bem-vindo, Aluno!',
+                    'Bem-vindo, Professor!',
                     style: textTheme.titleLarge?.copyWith(
                       color: colorScheme.primary,
                     ),
@@ -49,38 +49,33 @@ class AlunoHomeView extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpaces.gap * 2),
                   _HomeButton(
-                    icon: Icons.upload_file,
-                    label: 'Upload/Assinatura de Documentos',
+                    icon: Icons.check_circle_outline,
+                    label: 'Aprovação/Recusa de Documentos',
                     color: colorScheme.primary,
                     onTap: () =>
-                        Navigator.pushNamed(context, '/upload-documento'),
+                        Navigator.pushNamed(context, '/aprovacao-documentos'),
                   ),
                   _HomeButton(
-                    icon: Icons.event_available,
-                    label: 'Agendamento de Visitas',
+                    icon: Icons.calendar_today,
+                    label: 'Visualização de Agendamentos',
                     color: colorScheme.secondary,
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/agendamento-visita'),
-                  ),
-                  _HomeButton(
-                    icon: Icons.history,
-                    label: 'Histórico de Atividades/Documentos',
-                    color: colorScheme.primary,
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/historico-atividades'),
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      '/visualizacao-agendamentos-professor',
+                    ),
                   ),
                   _HomeButton(
                     icon: Icons.notifications,
                     label: 'Notificações',
-                    color: colorScheme.secondary,
+                    color: colorScheme.primary,
                     onTap: () => Navigator.pushNamed(context, '/notificacoes'),
                   ),
                   _HomeButton(
                     icon: Icons.person_add_alt,
-                    label: 'Cadastro de Aluno',
-                    color: colorScheme.primary,
+                    label: 'Cadastro de Professor',
+                    color: colorScheme.secondary,
                     onTap: () =>
-                        Navigator.pushNamed(context, '/cadastro-aluno'),
+                        Navigator.pushNamed(context, '/cadastro-professor'),
                   ),
                 ],
               ),

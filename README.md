@@ -78,7 +78,12 @@ A modelagem de dados considerará as entidades **Aluno, Professor, Escola, Docum
 1. Login.
 2. Upload e preenchimento de documentos.
 3. Assinatura digital.
-4. Agendamento de visitas.
+4. Agendamento de visitas:
+   - Exibir listagem de escolas com campo de pesquisa.
+   - Aluno seleciona a escola desejada.
+   - Após selecionar a escola, exibir seleção de data.
+   - Após selecionar a data, exibir horários disponíveis para aquela data na escola escolhida.
+   - Aluno seleciona o horário e confirma o agendamento.
 5. Acompanhamento do status de documentos.
 6. Recebimento de notificações.
 
@@ -109,46 +114,65 @@ A modelagem de dados considerará as entidades **Aluno, Professor, Escola, Docum
    - [x] Definir estrutura de pastas (modelos, telas, widgets, serviços, utilitários).
    - [x] Configurar gerenciamento de estado (Provider).
 
-2. **Modelagem e Persistência Local**
-   - [ ] Definir modelos de dados (Aluno, Professor, Escola, Documento, Visita, Usuário).
-   - [ ] Escolher e configurar persistência local (Hive, SQLite, etc).
-   - [ ] Criar serviços para simular autenticação e manipulação de dados.
+2. **Modelagem e Dados Mockados**
+   - [x] Definir modelos de dados (Aluno, Professor, Escola, Documento, Visita, Usuário).
+   - [ ] Implementar telas e lógica do front-end utilizando dados mockados (sem persistência):
+     1. [x] Tela de Login
+     2. [x] Tela Home do Aluno
+     3. [x] Tela Home do Professor
+     4. [x] Tela Home da Escola
+     5. [x] Tela de Cadastro de Aluno
+     6. [x] Tela de Cadastro de Professor
+     7. [x] Tela de Cadastro de Escola
+     8. [x] Tela de Upload/Assinatura de Documentos
+     9. [x] Tela de Agendamento de Visitas
+    10. [x] Tela de Histórico de Atividades/Documentos
+    11. [x] Tela de Aprovação/Recusa de Documentos (Professor)
+    12. [x] Tela de Visualização de Agendamentos (Professor/Escola)
+    13. [x] Tela de Notificações
+    14. [x] Tela de Gerenciamento de Horários (Escola)
+    15. [x] Tela de Atualização de Dados Cadastrais (Escola)
 
-3. **Autenticação e Perfis (Simulados)**
+3. **Persistência Local (SQLite)**
+   - [ ] Escolher e configurar SQLite para persistência local.
+   - [ ] Implementar serviços para manipulação dos dados reais no banco.
+   - [ ] Integrar telas e controladores com o banco de dados.
+
+4. **Autenticação e Perfis (Simulados)**
    - [ ] Implementar telas e lógica de login para Aluno, Professor e Escola (sem autenticação real).
    - [ ] Gerenciar troca de perfis e permissões de acesso.
 
-4. **Funcionalidades do Aluno**
+5. **Funcionalidades do Aluno**
    - [ ] Upload, preenchimento e assinatura digital de documentos.
    - [ ] Agendamento de visitas.
    - [ ] Consulta ao histórico e status de documentos.
    - [ ] Recebimento de notificações.
 
-5. **Funcionalidades do Professor**
+6. **Funcionalidades do Professor**
    - [ ] Visualização de alunos supervisionados.
    - [ ] Aprovação/recusa de documentos.
    - [ ] Visualização de agendamentos.
    - [ ] Envio de notificações.
 
-6. **Funcionalidades da Escola**
+7. **Funcionalidades da Escola**
    - [ ] Gestão de horários para visitas.
    - [ ] Confirmação/reagendamento de visitas.
    - [ ] Atualização de dados cadastrais.
    - [ ] Visualização de agendamentos.
 
-7. **Notificações e Painéis**
+8. **Notificações e Painéis**
    - [ ] Implementar sistema de notificações locais.
    - [ ] Criar painéis de acompanhamento para cada tipo de usuário.
 
-8. **Testes e Validação**
+9. **Testes e Validação**
    - [ ] Testes unitários e de integração.
    - [ ] Testes de usabilidade e responsividade.
    - [ ] Validação de requisitos funcionais e não funcionais.
 
-9. **Publicação e Distribuição**
-   - [ ] Gerar builds para Android, iOS, Web e Desktop.
-   - [ ] Testar instalação e funcionamento em cada plataforma.
-   - [ ] Documentar processo de build e publicação.
+10. **Publicação e Distribuição**
+    - [ ] Gerar builds para Android, iOS, Web e Desktop.
+    - [ ] Testar instalação e funcionamento em cada plataforma.
+    - [ ] Documentar processo de build e publicação.
 
 ---
 
@@ -213,5 +237,21 @@ lib/
 - **services/**: Serviços para persistência local, notificações, autenticação simulada, etc.
 - **utils/**: Funções utilitárias, temas, constantes globais.
 - **routes/**: Arquivos de configuração de rotas e navegação do app.
+
+---
+
+## Padrão Visual e Responsividade
+
+O app utiliza um tema global moderno, com as seguintes características:
+
+- **Paleta de cores:** tons de roxo, verde, branco e cinza claro para fundo, botões e destaques.
+- **Tipografia:** títulos grandes e destacados, textos legíveis e amigáveis.
+- **Botões e campos:** arredondados, com ícones temáticos e feedback visual.
+- **Responsividade:** todas as telas adaptam-se a diferentes tamanhos de tela (mobile, tablet, desktop) usando LayoutBuilder, AnimatedContainer e SingleChildScrollView.
+- **Animações:** transições suaves em botões, cards e containers.
+- **Ícones:** presentes em todos os botões, campos e listas para reforçar a usabilidade.
+- **Layout centralizado:** conteúdo sempre centralizado e com espaçamento adequado.
+
+> **Atenção:** Todas as novas telas e componentes devem seguir este padrão visual para garantir uma experiência consistente e agradável ao usuário.
 
 ---
