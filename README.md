@@ -67,9 +67,30 @@
 
 ## 3. Modelagem de Dados
 
-A modelagem de dados considerará as entidades **Aluno, Professor, Escola, Documento, Visita, Usuário** e os fluxos de aprovação, agendamento e rastreabilidade dos processos.
+### 3.1 Entidades e Atributos
 
-* Diagrama Entidade-Relacionamento e Relacional serão gerados e vinculados a este documento para acompanhamento técnico no desenvolvimento do sistema.
+* **Aluno**: id\_aluno, nome, email\_institucional, matrícula.
+* **Professor**: id\_professor, nome, email, área\_atuacao.
+* **Usuário**: id\_usuario, login, senha, perfil.
+* **Escola**: id\_escola, nome, endereço, bairro, cidade, geolocalizacao.
+* **Visita**: id\_visita, data, status, id\_aluno (FK), id\_escola (FK).
+* **Formulário**: id\_formulario, tipo, status, data\_envio, assinatura\_digital.
+* **FolhaDePonto**: id\_folha, mes\_referencia, total\_horas, data\_envio.
+* **Portfólio**: id\_portfolio, data\_envio, status.
+
+### 3.2 Relacionamentos
+
+* Aluno submete Formulário, FolhaDePonto e Portfólio.
+* Aluno realiza Visita, e Escola recebe Visita.
+* Usuário representa Aluno ou Professor (exclusivo).
+
+### 3.3 Diagrama Relacional
+
+Disponível em: [Ver diagrama](https://drive.google.com/file/d/1VrXcSmwC8XKH2JiH2BMX0iwxvB94Hk23/view?usp=sharing)
+
+### 3.4 Diagrama Entidade-Relacionamento (MER)
+
+Disponível em: [Ver MER](https://app.brmodeloweb.com/#!/publicview/6862246f60dbed78304de446)
 
 ## 4. Etapas Detalhadas
 
